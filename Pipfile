@@ -7,6 +7,7 @@ name = "pypi"
 
 [dev-packages]
 pytest = "~=8.3"
+jupyterlab = "*"
 
 [requires]
 python_version = "3.12"
