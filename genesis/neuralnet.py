@@ -16,7 +16,7 @@ class NeuralNetwork:
         integers. A ValueError will be thrown for invalid values.
         """
 
-        if input_size is None or isinstance(input_size, int):
+        if input_size is None or not isinstance(input_size, int):
             raise TypeError("Parameter 'input_size' must be an integer")
         if input_size <= 0:
             raise ValueError("Pamater 'input_size' must be greater than zero")
