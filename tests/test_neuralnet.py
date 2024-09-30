@@ -49,3 +49,13 @@ class TestNeuralNetwork():
 
         with pytest.raises(ValueError):
             NeuralNetwork(input_size=3, neurons=[5, -3, 1])
+
+    def test_model_weights_are_initialized(self):
+        """Test neural network weights are initialized correctly based on input size and neurons per layer"""
+        nn = NeuralNetwork(3, [3, 2, 1])
+
+        assert len(nn.weights) == 3
+
+        assert nn.weights[0].shape == (3, 3)
+        assert nn.weights[1].shape == (2, 3)
+        assert nn.weights[2].shape == (1, 2)

@@ -29,11 +29,17 @@ class NeuralNetwork:
             raise ValueError("Parameter 'neurons' must contain one or more value \
             with each value must be greater than zero")
 
-        self.weights = []
+        self._weights = []
         # Add the first layers weights.
-        self.weights.append(np.random.random(size=(neurons[0], input_size)))
+        self._weights.append(np.random.random(size=(neurons[0], input_size)))
         if len(neurons) > 1:
             # Add the weights for the remaining layers.
-            self.weights.extend([
+            self._weights.extend([
                 np.random.random(size=(neurons[i], neurons[i-1])) for i in range(1, len(neurons))
             ]) 
+
+    @property
+    def weights(self):
+        """The weights property."""
+        return self._weights
+    
