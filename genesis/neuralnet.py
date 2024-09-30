@@ -38,6 +38,20 @@ class NeuralNetwork:
                 np.random.random(size=(neurons[i], neurons[i-1])) for i in range(1, len(neurons))
             ]) 
 
+    def __call__(self, inputs):
+        """Computes the output by passing the specified inputs through the neural network.
+
+        `inputs` is expected to be in the shape [batch_size, n_features].
+
+        A ValueError is raised if the dims of the input do not match the expected input size 
+        defined when the model was initialized"""
+        outputs = inputs
+        for weights in self.weights:
+            # Iterate through the weights of each layer and compute the layer's output'
+            outputs = np.matmul(outputs, weights.T) 
+        return outputs
+
+
     @property
     def weights(self):
         """The weights property."""
