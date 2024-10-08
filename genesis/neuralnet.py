@@ -2,7 +2,7 @@ import numpy as np
 from typing import Sequence 
 
 class NeuralNetwork:
-    def __init__(self, input_size: int, neurons: Sequence[int]) -> None:
+    def __init__(self, n_features_in: int, neurons: Sequence[int]) -> None:
         """Initialize a neural network with the specified number of neurons
 
         The `neurons` parameter dictates both the number of layer and the number 
@@ -12,14 +12,14 @@ class NeuralNetwork:
         layers where the first layer (layer at index 0) has 5 neurons, followed by 
         a layer with 3 neurons and a final layer with 1 neuron.
 
-        both input_size and any values specified in neurons must be postivive non zero
+        both n_features_in and any values specified in neurons must be postivive non zero
         integers. A ValueError will be thrown for invalid values.
         """
 
-        if input_size is None or not isinstance(input_size, int):
-            raise TypeError("Parameter 'input_size' must be an integer")
-        if input_size <= 0:
-            raise ValueError("Pamater 'input_size' must be greater than zero")
+        if n_features_in is None or not isinstance(n_features_in, int):
+            raise TypeError("Parameter 'n_features_in' must be an integer")
+        if n_features_in <= 0:
+            raise ValueError("Pamater 'n_features_in' must be greater than zero")
 
         if neurons is None \
             or not isinstance(neurons, Sequence) \
@@ -31,11 +31,11 @@ class NeuralNetwork:
 
         self._weights = []
         # Add the first layers weights.
-        self._weights.append(np.random.random(size=(neurons[0], input_size)))
+        self._weights.append(np.random.random(size=(n_features_in, neurons[0])))
         if len(neurons) > 1:
             # Add the weights for the remaining layers.
             self._weights.extend([
-                np.random.random(size=(neurons[i], neurons[i-1])) for i in range(1, len(neurons))
+                np.random.random(size=(neurons[i-1], neurons[i])) for i in range(1, len(neurons))
             ]) 
 
     def __call__(self, inputs):
@@ -44,11 +44,13 @@ class NeuralNetwork:
         `inputs` is expected to be in the shape [batch_size, n_features].
 
         A ValueError is raised if the dims of the input do not match the expected input size 
-        defined when the model was initialized"""
+        defined when the model was initialized
+        """
         outputs = inputs
+
         for weights in self.weights:
             # Iterate through the weights of each layer and compute the layer's output'
-            outputs = np.matmul(outputs, weights.T) 
+            outputs = np.matmul(outputs, weights) 
         return outputs
 
 
